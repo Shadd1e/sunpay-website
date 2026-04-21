@@ -437,3 +437,137 @@ body.light .prose li {
 .theme-toggle .icon-sun  { display: block; }
 body.light .theme-toggle .icon-moon { display: block; }
 body.light .theme-toggle .icon-sun  { display: none; }
+
+/* ── ADDITIONAL LIGHT MODE FIXES ── */
+
+/* Phone mockup text - screen bg is light in light mode so text needs to be dark */
+body.light .phone__greeting { color: rgba(12,12,10,0.4); }
+body.light .phone__name { color: #0C0C0A; }
+body.light .phone__status-bar { color: rgba(12,12,10,0.4); }
+body.light .phone__card-sub { color: rgba(12,12,10,0.45); }
+body.light .phone__card-amount { color: #0C0C0A; }
+body.light .phone__action--outline {
+  border-color: rgba(0,0,0,0.12);
+  color: rgba(12,12,10,0.6);
+}
+
+/* Store badges in light mode */
+body.light .store-badge {
+  background: #fff;
+  border-color: rgba(0,0,0,0.1);
+}
+body.light .store-badge__name { color: #0C0C0A; }
+body.light .store-badge__sub { color: rgba(12,12,10,0.45); }
+body.light .store-badge svg { fill: #0C0C0A; }
+
+/* Coins in light mode */
+body.light .coin--1,
+body.light .coin--2 {
+  background: linear-gradient(135deg, #fff8ee, #fff0d0);
+  border-color: rgba(245,166,35,0.35);
+  box-shadow: 0 0 40px rgba(245,166,35,0.15);
+}
+
+/* How it works line */
+body.light .how__steps::before {
+  background: linear-gradient(90deg, transparent, rgba(245,166,35,0.3), var(--gold), rgba(245,166,35,0.3), transparent);
+}
+
+/* Download section */
+body.light .download { background: var(--dark); }
+body.light .download__title { color: #0C0C0A; }
+body.light .download__sub { color: rgba(12,12,10,0.6); }
+body.light .download__notice { color: rgba(12,12,10,0.45); }
+body.light .download__logo { box-shadow: 0 20px 60px rgba(245,166,35,0.2); }
+
+/* Hero stats */
+body.light .hero__stat-label { color: rgba(12,12,10,0.45); }
+
+/* Section tags */
+body.light .section-tag {
+  background: rgba(245,166,35,0.12);
+  border-color: rgba(245,166,35,0.3);
+}
+
+/* Nav links in light mode */
+body.light .nav__links a { color: rgba(12,12,10,0.6); }
+body.light .nav__links a:hover { color: #0C0C0A; }
+body.light .nav__wordmark { color: #0C0C0A; }
+
+/* Hero badge dot */
+body.light .hero__badge {
+  background: rgba(245,166,35,0.1);
+  border-color: rgba(245,166,35,0.25);
+  color: rgba(12,12,10,0.6);
+}
+
+/* Suncoins list */
+body.light .suncoins__list li { color: rgba(12,12,10,0.65); }
+
+/* Feature card hover */
+body.light .feature-card:hover {
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+}
+
+/* How step content */
+body.light .how__step-content p { color: rgba(12,12,10,0.6); }
+
+/* Prose headings */
+body.light .prose h3 { color: #0C0C0A; }
+
+/* ── ADDITIONAL LIGHT MODE FIXES ── */
+
+/* Phone mockup numbers and text */
+body.light .phone__card-amount { color: #fff; }
+body.light .phone__card-label  { color: var(--gold); }
+body.light .phone__card-sub    { color: rgba(255,255,255,0.5); }
+body.light .phone__action--gold { background: var(--gold); color: #000; }
+
+/* Store badge icons and text */
+body.light .store-badge {
+  background: #fff;
+  border-color: rgba(0,0,0,0.1);
+}
+body.light .store-badge svg { fill: #0C0C0A; }
+body.light .store-badge__name { color: #0C0C0A; }
+body.light .store-badge__sub  { color: rgba(12,12,10,0.5); }
+
+/* Download section stays dark in light mode for contrast */
+body.light .download {
+  background: var(--dark-2);
+}
+body.light .download__title { color: var(--text); }
+
+/* How it works line */
+body.light .how__steps::before {
+  background: linear-gradient(90deg, transparent, rgba(245,166,35,0.3), var(--gold), rgba(245,166,35,0.3), transparent);
+}
+
+/* Section titles and headings */
+body.light .section-title { color: #0C0C0A; }
+body.light .feature-card h3 { color: #0C0C0A; }
+body.light .how__step-content h3 { color: #0C0C0A; }
+body.light .m-benefit h3 { color: #0C0C0A; }
+body.light .hero__title { color: #0C0C0A; }
+body.light .hero__sub { color: rgba(12,12,10,0.65); }
+body.light .footer__wordmark { color: #0C0C0A; }
+body.light .footer__brand p { color: rgba(12,12,10,0.6); }
+body.light .footer__col a { color: rgba(12,12,10,0.6); }
+body.light .footer__col a:hover { color: #0C0C0A; }
+body.light .footer__bottom p { color: rgba(12,12,10,0.4); }
+body.light .nav__mobile { background: #e4e1d9; }
+body.light .nav__mobile a { color: rgba(12,12,10,0.7); }
+body.light .page-hero__title { color: #0C0C0A; }
+body.light .page-hero__sub { color: rgba(12,12,10,0.6); }
+body.light .prose h2 { color: var(--gold); }
+body.light .prose h3 { color: #0C0C0A; }
+body.light .prose p,
+body.light .prose li { color: rgba(12,12,10,0.7); }
+body.light .merchant-form-left > p { color: rgba(12,12,10,0.65); }
+body.light .merchant-contact a { color: rgba(12,12,10,0.6); }
+body.light .form-note { color: rgba(12,12,10,0.45); }
+body.light .suncoins__list li { color: rgba(12,12,10,0.65); }
+body.light .suncoins__text > p { color: rgba(12,12,10,0.65); }
+body.light .hero__stat-value { color: var(--gold); }
+body.light .download__sub { color: rgba(240,237,230,0.65); }
+body.light .download__notice { color: rgba(240,237,230,0.5); }
