@@ -168,3 +168,14 @@ if (merchantForm) {
     }
   });
 }
+
+// ── THEME TOGGLE ──
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('sunpay_theme') || 'dark';
+if (savedTheme === 'light') document.body.classList.add('light');
+
+themeToggle?.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  const current = document.body.classList.contains('light') ? 'light' : 'dark';
+  localStorage.setItem('sunpay_theme', current);
+});

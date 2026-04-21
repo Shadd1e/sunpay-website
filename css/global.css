@@ -341,3 +341,99 @@ a { text-decoration: none; color: inherit; }
   .footer__links { grid-template-columns: repeat(2, 1fr); }
   .footer__bottom { flex-direction: column; align-items: flex-start; }
 }
+
+/* ── LIGHT MODE ── */
+body.light {
+  --black: #F5F3EE;
+  --dark: #ECEAE4;
+  --dark-2: #E4E1D9;
+  --dark-3: #DEDAD0;
+  --dark-4: #D5D0C4;
+  --text: #0C0C0A;
+  --text-2: rgba(12, 12, 10, 0.65);
+  --text-3: rgba(12, 12, 10, 0.38);
+  --border: rgba(245, 166, 35, 0.25);
+  --border-2: rgba(0, 0, 0, 0.08);
+  --gold-dim: rgba(245, 166, 35, 0.1);
+  --gold-glow: rgba(245, 166, 35, 0.2);
+}
+
+body.light .nav.scrolled {
+  background: rgba(245, 243, 238, 0.92);
+}
+
+body.light .feature-card,
+body.light .m-benefit,
+body.light .how__step-number,
+body.light .store-badge {
+  background: #fff;
+}
+
+body.light .phone {
+  border-color: rgba(0,0,0,0.1);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+}
+
+body.light .phone__screen {
+  background: linear-gradient(180deg, #f0ede6 0%, #e8e5dc 100%);
+}
+
+body.light .phone__card {
+  background: linear-gradient(135deg, #1a1400, #2a1e00);
+}
+
+body.light .hero__grid {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+}
+
+body.light .merchant-form-wrap {
+  background: #fff;
+  border-color: rgba(0,0,0,0.08);
+}
+
+body.light .form-field input[type="text"],
+body.light .form-field input[type="tel"],
+body.light .form-field input[type="email"] {
+  background: #f5f3ee;
+  border-color: rgba(0,0,0,0.1);
+}
+
+body.light .chip {
+  background: #f0ede6;
+  border-color: rgba(0,0,0,0.1);
+}
+
+body.light .footer {
+  background: #e4e1d9;
+}
+
+body.light .prose p,
+body.light .prose li {
+  color: rgba(12,12,10,0.7);
+}
+
+/* ── THEME TOGGLE BUTTON ── */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-2);
+  background: var(--dark-3);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.theme-toggle .icon-moon { display: none; }
+.theme-toggle .icon-sun  { display: block; }
+body.light .theme-toggle .icon-moon { display: block; }
+body.light .theme-toggle .icon-sun  { display: none; }
