@@ -51,6 +51,36 @@
 .m-benefit h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
 .m-benefit p { font-size: 13px; color: var(--text-2); line-height: 1.7; }
 
+/* ── COMING SOON BADGE ── */
+.coming-soon-badge {
+  position: relative;
+  padding-left: 26px;
+}
+.coming-soon-badge::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(245,166,35,0.4); }
+  50% { opacity: 0.6; box-shadow: 0 0 0 5px rgba(245,166,35,0); }
+}
+
+/* Lightweight form wrap gets a bit less width since it's a shorter form */
+.merchant-form-wrap--soon {
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 1024px) {
+  .merchant-form-wrap--soon { grid-template-columns: 1fr; }
+}
+
 /* ── FORM SECTION ── */
 .merchant-form-section { padding: 0 0 100px; }
 .merchant-form-wrap {

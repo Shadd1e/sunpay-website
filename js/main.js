@@ -124,7 +124,7 @@ window.addEventListener('scroll', () => {
   loop();
 })();
 
-// ── FORM SUBMIT (merchant page) ──
+// ── FORM SUBMIT (merchant "coming soon" page → Formspree) ──
 const merchantForm = document.getElementById('merchantForm');
 if (merchantForm) {
   merchantForm.addEventListener('submit', async (e) => {
@@ -137,26 +137,25 @@ if (merchantForm) {
     const data = Object.fromEntries(new FormData(merchantForm));
 
     try {
-      const res = await fetch('https://ndvwrdunisfhvospvufo.supabase.co/functions/v1/merchant-lead', {
+      const res = await fetch(merchantForm.action, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': 'YOUR_ANON_KEY', // replace with real anon key
+          'Accept': 'application/json',
         },
         body: JSON.stringify(data),
       });
-      const json = await res.json();
 
-      if (json.ok || res.ok) {
+      if (res.ok) {
         merchantForm.innerHTML = `
           <div class="form-success">
             <div class="form-success__icon">✓</div>
-            <h3>We've got you!</h3>
-            <p>Thanks ${data.name?.split(' ')[0] || 'there'}. Our team will reach out to you within 2 business days.</p>
+            <h3>You're on the list!</h3>
+            <p>We'll email you at ${data.email || 'your inbox'} the moment merchant sign-up opens.</p>
           </div>
         `;
       } else {
-        throw new Error(json.error || 'Failed');
+        throw new Error('Failed');
       }
     } catch (err) {
       btn.textContent = original;
