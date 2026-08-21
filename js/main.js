@@ -1,180 +1,105 @@
 // ============================================================
-// SUNPAY — Main JavaScript
+// SUNPAY — Homepage interactions
 // ============================================================
 
-// ── NAV SCROLL ──
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav?.classList.toggle('scrolled', window.scrollY > 20);
-});
-
-// ── MOBILE MENU ──
 const burger = document.getElementById('burger');
 const mobileMenu = document.getElementById('mobileMenu');
-burger?.addEventListener('click', () => {
-  mobileMenu?.classList.toggle('open');
-});
-mobileMenu?.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => mobileMenu.classList.remove('open'));
-});
-
-// ── REVEAL ON SCROLL ──
-const revealEls = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-revealEls.forEach(el => observer.observe(el));
-
-// ── COUNTER ANIMATION ──
-function animateCounter(el) {
-  const target = parseInt(el.dataset.target, 10);
-  const duration = 1800;
-  const start = performance.now();
-
-  function update(now) {
-    const elapsed = now - start;
-    const progress = Math.min(elapsed / duration, 1);
-    // Ease out
-    const ease = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.floor(ease * target).toLocaleString();
-    if (progress < 1) requestAnimationFrame(update);
-  }
-  requestAnimationFrame(update);
-}
-
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      animateCounter(entry.target);
-      counterObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.5 });
-
-document.querySelectorAll('.phone__counter').forEach(el => counterObserver.observe(el));
-
-// ── SMOOTH ACTIVE NAV ──
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav__links a[href^="#"]');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(section => {
-    const top = section.offsetTop - 100;
-    if (window.scrollY >= top) current = section.getAttribute('id');
-  });
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
-  });
+  nav?.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+burger?.addEventListener('click', () => mobileMenu?.classList.toggle('open'));
+mobileMenu?.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => mobileMenu.classList.remove('open'));
 });
 
-// ── PARTICLE EFFECT (subtle gold dots in hero) ──
-(function() {
-  const canvas = document.createElement('canvas');
-  canvas.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:0;opacity:0.4';
-  document.body.prepend(canvas);
+const revealEls = document.querySelectorAll('.reveal');
+if (reduceMotion) {
+  revealEls.forEach(el => el.classList.add('visible'));
+} else {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+}
 
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [];
+// Subtle editorial parallax for the staged product preview.
+const heroStage = document.getElementById('heroStage');
+if (heroStage && !reduceMotion && window.matchMedia('(pointer:fine)').matches) {
+  heroStage.addEventListener('pointermove', (event) => {
+    const rect = heroStage.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    heroStage.style.setProperty('--px', `${x * 8}px`);
+    heroStage.style.setProperty('--py', `${y * 8}px`);
+    heroStage.style.transform = `translate(${x * 5}px, ${y * 3}px)`;
+  });
+  heroStage.addEventListener('pointerleave', () => {
+    heroStage.style.transform = '';
+  });
+}
 
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
+// Active nav state for in-page sections.
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav__links a[href^="#"]');
+const setActiveNav = () => {
+  let current = '';
+  sections.forEach(section => {
+    if (window.scrollY >= section.offsetTop - 140) current = section.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+  });
+};
+window.addEventListener('scroll', setActiveNav, { passive: true });
+setActiveNav();
 
-  class Particle {
-    constructor() { this.reset(); }
-    reset() {
-      this.x = Math.random() * W;
-      this.y = Math.random() * H;
-      this.r = Math.random() * 1.5 + 0.3;
-      this.vx = (Math.random() - 0.5) * 0.3;
-      this.vy = (Math.random() - 0.5) * 0.3;
-      this.alpha = Math.random() * 0.5 + 0.1;
-    }
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-      if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(245,166,35,${this.alpha})`;
-      ctx.fill();
-    }
-  }
+// Theme preference.
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('sunpay_theme') || 'dark';
+if (savedTheme === 'light') document.body.classList.add('light');
+themeToggle?.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  localStorage.setItem('sunpay_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+});
 
-  for (let i = 0; i < 60; i++) particles.push(new Particle());
-
-  function loop() {
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(loop);
-  }
-  loop();
-})();
-
-// ── FORM SUBMIT (merchant "coming soon" page → Formspree) ──
+// Merchant early-access form (used on merchant.html).
 const merchantForm = document.getElementById('merchantForm');
 if (merchantForm) {
-  merchantForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  merchantForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
     const btn = merchantForm.querySelector('button[type="submit"]');
     const original = btn.textContent;
     btn.textContent = 'Sending...';
     btn.disabled = true;
-
     const data = Object.fromEntries(new FormData(merchantForm));
-
     try {
-      const res = await fetch(merchantForm.action, {
+      const response = await fetch(merchantForm.action, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(data),
       });
-
-      if (res.ok) {
-        merchantForm.innerHTML = `
-          <div class="form-success">
-            <div class="form-success__icon">✓</div>
-            <h3>You're on the list!</h3>
-            <p>We'll email you at ${data.email || 'your inbox'} the moment merchant sign-up opens.</p>
-          </div>
-        `;
-      } else {
-        throw new Error('Failed');
-      }
-    } catch (err) {
+      if (!response.ok) throw new Error('Request failed');
+      merchantForm.innerHTML = `<div class="form-success"><div class="form-success__icon">✓</div><h3>You're on the list!</h3><p>We'll email you at ${data.email || 'your inbox'} when merchant sign-up opens.</p></div>`;
+    } catch {
       btn.textContent = original;
       btn.disabled = false;
-      const errEl = document.createElement('p');
-      errEl.style.cssText = 'color:#ff6b6b;font-size:13px;margin-top:12px;text-align:center;';
-      errEl.textContent = 'Something went wrong. Please try again or email us at sunpayngltd@gmail.com';
-      merchantForm.appendChild(errEl);
+      let error = merchantForm.querySelector('.form-error');
+      if (!error) {
+        error = document.createElement('p');
+        error.className = 'form-error';
+        error.style.cssText = 'color:#ff8b84;font-size:13px;margin-top:12px;text-align:center;';
+        merchantForm.appendChild(error);
+      }
+      error.textContent = 'Something went wrong. Please try again or email us at sunpayngltd@gmail.com';
     }
   });
 }
-
-// ── THEME TOGGLE ──
-const themeToggle = document.getElementById('themeToggle');
-const savedTheme = localStorage.getItem('sunpay_theme') || 'dark';
-if (savedTheme === 'light') document.body.classList.add('light');
-
-themeToggle?.addEventListener('click', () => {
-  document.body.classList.toggle('light');
-  const current = document.body.classList.contains('light') ? 'light' : 'dark';
-  localStorage.setItem('sunpay_theme', current);
-});
